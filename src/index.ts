@@ -2,8 +2,15 @@ import express from 'express'
 import { reqToKana } from './utils/kanaTypeToKana'
 import { reqToKanji } from './utils/kanjiLevelToKanji'
 import { getHomeScreenStats } from './utils/getHomeScreenStats'
+import cors from 'cors'
 
 const app = express()
+
+app.use(
+  cors({
+    origin: '*',
+  })
+)
 
 app.get('/kanji/:level', (req, res) => {
   const kanji = reqToKanji(req)
