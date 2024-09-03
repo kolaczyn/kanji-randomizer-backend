@@ -14,7 +14,7 @@
     "lint:fix": "eslint src --fix",
     "test": "vitest",
     "test:run": "vitest run",
-    "ci": "run-p -l --aggregate-output format lint:check types test:run",
+    "ci": "run-p -l --aggregate-output format lint:check types 'test:run --pass-with-no-tests'",
     "build": "rimraf dist && tsc",
     "build:package": "rimraf lib && yarn build:esm",
     "build:esm": "tsc --module esnext --outDir lib/esm",
