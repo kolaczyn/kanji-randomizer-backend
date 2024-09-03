@@ -1,33 +1,12 @@
 import express from 'express'
-import { kanjiN5 } from './data/kanjiN5'
-import { kanjiN1 } from './data/kanjiN1'
-import { kanjiN2 } from './data/kanjiN2'
-import { kanjiN3 } from './data/kanjiN3'
-import { kanjiN4 } from './data/kanjiN4'
-import { KanjiList } from './types'
+import { reqToKana } from './utils/kanaTypeToKana'
+import { reqToKanji } from './utils/kanjiLevelToKanji'
+import { getHomeScreenStats } from './utils/getHomeScreenStats'
 
 const app = express()
 
-const levelToKanji = (level: string): KanjiList | null => {
-  switch (level) {
-    case 'N1':
-      return kanjiN1
-    case 'N2':
-      return kanjiN2
-    case 'N3':
-      return kanjiN3
-    case 'N4':
-      return kanjiN4
-    case 'N5':
-      return kanjiN5
-    default:
-      return null
-  }
-}
-
 app.get('/kanji/:level', (req, res) => {
-  const level = req.params.level.toUpperCase()
-  const kanji = levelToKanji(level)
+  const kanji = reqToKanji(req)
   if (kanji) {
     res.json(kanji)
   } else {
@@ -36,13 +15,34 @@ app.get('/kanji/:level', (req, res) => {
 })
 
 app.get('/kanji/:level/length', (req, res) => {
-  const level = req.params.level.toUpperCase()
-  const kanji = levelToKanji(level)
+  const kanji = reqToKanji(req)
   if (kanji) {
     res.json({ length: kanji.length })
   } else {
     res.status(404).send('Not Found')
   }
+})
+
+app.get('/kana/:kanaType', (req, res) => {
+  const kana = reqToKana(req)
+  if (kana) {
+    res.json(kana)
+  } else {
+    res.status(404).send('Not Found')
+  }
+})
+
+app.get('/kana/:kanaType/length', (req, res) => {
+  const kana = reqToKana(req)
+  if (kana) {
+    res.json({ length: kana.length })
+  } else {
+    res.status(404).send('Not Found')
+  }
+})
+
+app.get('/home-screen-stats', (req, res) => {
+  res.send(getHomeScreenStats())
 })
 
 app.listen(4000)
