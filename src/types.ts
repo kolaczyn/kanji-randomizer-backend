@@ -27,3 +27,18 @@ export type HomeTilesDto = {
     strokeImg?: string
   }[]
 }
+
+export type JapaneseDictionaryWord = {
+  id: string
+  kanji: { common: boolean; text: string; tags: string[] }[]
+  kana: { common: boolean; text: string; tags: string[]; appliesToKanji: string[] }[]
+  sense: [{ gloss: { lang: 'eng'; text: string }[] }]
+}
+
+export type JapaneseDictionary = {
+  version: string
+  languages: string[]
+  commonOnly: boolean
+  dictDate: string
+  words: JapaneseDictionaryWord[]
+}

@@ -8,6 +8,8 @@ import { DeckDto, HomeTilesDto } from './types'
 import { deckJoinSchema } from './schema/deckJoinSchema'
 import { normalizeArray } from './utils/normalizeArray'
 import { deckDbToCardsDto } from './utils/deckDbToCardsDto'
+import { extractDict } from './utils/extractDict'
+import { findWord } from './utils/dictionarySearch'
 
 const app = express()
 
@@ -63,7 +65,19 @@ app.get('/v2/home/tiles', (_req, res) => {
   res.json(response)
 })
 
-app.listen(4000, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Running on http://localhost:4000`)
+app.get('/v2/vocab/:kanjiList', async (req, res) => {
+  const kanjiList = req.params.kanjiList
+  const foundWords = findWord(kanjiList)
+  res.json({
+    results: foundWords,
+  })
 })
+
+const main = async () => {
+  await extractDict()
+
+  app.listen(4000, () => {
+    console.log(`Running on http://localhost:4000`)
+  })
+}
+main()
