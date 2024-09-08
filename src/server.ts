@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import { allDecksGeneric } from './data/allDecks'
 import { getHomeTiles } from './utils/getHomeTiles'
-import { DeckDto, DeckLengthDto, HomeTilesDto } from './types'
+import { DeckDto, HomeTilesDto } from './types'
 import { deckJoinSchema } from './schema/deckJoinSchema'
 import { normalizeArray } from './utils/normalizeArray'
 
@@ -39,17 +39,6 @@ app.get('/v2/decks/:id', (req, res) => {
   if (!deck) return res.status(404).send('Deck not found')
 
   const response: DeckDto = deck.deck
-  res.json(response)
-})
-
-app.get('/v2/decks/:id/length', (req, res) => {
-  const { id } = req.params
-  if (!id) return res.status(400).send('Id not provided')
-
-  const deck = allDecksGeneric[id]
-  if (!deck) return res.status(404).send('Deck not found')
-
-  const response: DeckLengthDto = { length: deck.deck.length }
   res.json(response)
 })
 

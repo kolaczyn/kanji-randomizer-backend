@@ -8,10 +8,6 @@ export type QuestionAnswerList = [string, string][]
 
 export type DeckDto = [string, string][]
 
-export type DeckLengthDto = {
-  length: number
-}
-
 export type HomeTilesDto = {
   tiles: {
     id: string
