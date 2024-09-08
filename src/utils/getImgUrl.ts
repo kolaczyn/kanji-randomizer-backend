@@ -1,5 +1,6 @@
 import { apiBaseUrl } from '../env/apiBaseUrl'
-import { hiraganaImgsDict } from '../data/hiraganaImgs'
+import { hiraganaImgsDict } from '../data/hiraganaImgsDict'
+import { katakanaImgsDict } from '../data/katakanaImgsDict'
 
 const characterToUnicodeId = (char: string): number | null => char.codePointAt(0) ?? null
 
@@ -20,7 +21,7 @@ export const getImgUrl = (char: string): string | null => {
   if (unicodeId === null) return null
 
   if (isHiraganaRange(unicodeId)) return hiraganaImgsDict[char]
-  if (isKatakanaRange(unicodeId)) return hiraganaPronunciationToStroke(char)
+  if (isKatakanaRange(unicodeId)) return katakanaImgsDict[char]
   return kanjiToStrokeImgName(char)
 }
 
@@ -29,6 +30,3 @@ const kanjiToStrokeImgName = (kanji: string): string | null => {
   if (imageCode == null) return null
   return `${apiBaseUrl}/stroke/${imageCode}.png`
 }
-
-const hiraganaPronunciationToStroke = (pronunciation: string): string =>
-  `https://raw.githubusercontent.com/KeanuTomatoMomotaro/HirStroke/master/Resources/Alphabet/${pronunciation.toUpperCase()}.png`
