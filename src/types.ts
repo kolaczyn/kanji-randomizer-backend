@@ -42,3 +42,13 @@ export type JapaneseDictionary = {
   dictDate: string
   words: JapaneseDictionaryWord[]
 }
+
+export type FoundWordsDto = {
+  results: {
+    jap: string
+    eng: string
+    kana: string
+  }[]
+  /** how long it took to crunch the numbers */
+  timeMs: number
+}

@@ -4,12 +4,13 @@ import express from 'express'
 import cors from 'cors'
 import { allDecksGeneric } from './data/allDecks'
 import { getHomeTiles } from './utils/getHomeTiles'
-import { DeckDto, HomeTilesDto } from './types'
+import { DeckDto, FoundWordsDto, HomeTilesDto } from './types'
 import { deckJoinSchema } from './schema/deckJoinSchema'
 import { normalizeArray } from './utils/normalizeArray'
 import { deckDbToCardsDto } from './utils/deckDbToCardsDto'
 import { extractDict } from './utils/extractDict'
 import { findWord } from './utils/dictionarySearch'
+import { kanjiUntilLevel } from './utils/kanjiUntilLevel'
 
 const app = express()
 
@@ -67,10 +68,18 @@ app.get('/v2/home/tiles', (_req, res) => {
 
 app.get('/v2/vocab/:kanjiList', async (req, res) => {
   const kanjiList = req.params.kanjiList
-  const foundWords = findWord(kanjiList)
-  res.json({
+  const finalKanjiList: string[] = kanjiList.startsWith('level') ? kanjiUntilLevel(kanjiList) : kanjiList.split('')
+
+  const timeBefore = performance.now()
+  const foundWords = findWord(finalKanjiList)
+  const timeAfter = performance.now()
+  const took = timeAfter - timeBefore
+
+  const response: FoundWordsDto = {
+    timeMs: took,
     results: foundWords,
-  })
+  }
+  res.json(response)
 })
 
 const main = async () => {
