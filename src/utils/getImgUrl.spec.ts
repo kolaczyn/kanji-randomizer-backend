@@ -2,36 +2,21 @@ import { expect, test } from 'vitest'
 import { getImgUrl } from './getImgUrl'
 
 test('getImgUrl', () => {
-  expect(
-    getImgUrl({
-      character: '喝',
-      meaning: 'hoarse, scold',
-    })
-  ).toMatchInlineSnapshot('"undefined/stroke/559d.png"')
+  expect(getImgUrl('喝')).toMatchInlineSnapshot('"undefined/stroke/559d.png"')
 
-  expect(
-    getImgUrl({
-      character: 'サ',
-      meaning: 'sa',
-    })
-  ).toMatchInlineSnapshot('null')
-
-  // TODO this should return null
-  expect(
-    getImgUrl({
-      character: 'ぱ',
-      meaning: 'pa',
-    })
-  ).toMatchInlineSnapshot(
-    '"https://raw.githubusercontent.com/KeanuTomatoMomotaro/HirStroke/master/Resources/Alphabet/PA.png"'
+  expect(getImgUrl('サ')).toMatchInlineSnapshot(
+    '"https://upload.wikimedia.org/wikipedia/commons/8/8f/%E3%82%B5-bw.png"'
   )
 
-  expect(
-    getImgUrl({
-      character: 'ひ',
-      meaning: 'hi',
-    })
-  ).toMatchInlineSnapshot(
-    '"https://raw.githubusercontent.com/KeanuTomatoMomotaro/HirStroke/master/Resources/Alphabet/HI.png"'
+  expect(getImgUrl('ぱ')).toMatchInlineSnapshot(
+    '"https://upload.wikimedia.org/wikipedia/commons/d/d0/%E3%81%B1-bw.png"'
   )
+
+  expect(getImgUrl('ひ')).toMatchInlineSnapshot(
+    '"https://upload.wikimedia.org/wikipedia/commons/c/c5/%E3%81%B2-bw.png"'
+  )
+
+  // this is how edge cases are handled, which isn't very good, but it doesn't really matter :p
+  expect(getImgUrl('ばか')).toMatchInlineSnapshot('undefined')
+  expect(getImgUrl('hi')).toMatchInlineSnapshot('"undefined/stroke/68.png"')
 })
