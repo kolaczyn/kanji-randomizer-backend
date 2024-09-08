@@ -4,13 +4,12 @@ import express from 'express'
 import cors from 'cors'
 import { allDecksGeneric } from './data/allDecks'
 import { getHomeTiles } from './utils/getHomeTiles'
-import { DeckDto, HomeTilesDto, JapaneseDictionary } from './types'
+import { DeckDto, HomeTilesDto } from './types'
 import { deckJoinSchema } from './schema/deckJoinSchema'
 import { normalizeArray } from './utils/normalizeArray'
 import { deckDbToCardsDto } from './utils/deckDbToCardsDto'
 import { extractDict } from './utils/extractDict'
-import { hiraganaBase, hiraganaOnlyDakuten } from './data/hiragana'
-import { katakanaBase, katakanaOnlyDakuten } from './data/katakana'
+import { findWord } from './utils/dictionarySearch'
 
 const app = express()
 
@@ -71,31 +70,6 @@ app.get('/v2/vocab', async (req, res) => {
     ok: 'done',
   })
 })
-
-const findWord = (kanjiSearch: string[]) => {
-  const allKana: string[] = [hiraganaBase, hiraganaOnlyDakuten, katakanaBase, katakanaOnlyDakuten]
-    .map(x => x.deck)
-    .flat()
-    .map(x => x[0])
-  const toSearch = [...kanjiSearch, ...allKana]
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const dictionary = require('../jmdict-eng-common-3.5.0.json') as JapaneseDictionary
-  console.log(dictionary.words.length)
-  // TODO this is gonna be extremely slow, but should do for now
-  // TODO I should include kana in the search
-  const result = dictionary.words.filter(word =>
-    word.kanji.some(({ text }) => text.split('').every(letter => toSearch.includes(letter)))
-  )
-  const final = result.map(x => ({
-    jap: x.kanji.map(x => x.text).join(', '),
-    eng: x.sense[0].gloss.map(x => x.text).join(', '),
-  }))
-
-  console.log({
-    results: final,
-    length: final.length,
-  })
-}
 
 const main = async () => {
   await extractDict()
