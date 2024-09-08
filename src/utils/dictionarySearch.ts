@@ -14,23 +14,24 @@ const loadDict = () => {
 
 const findWordInDictionary = (dictionary: JapaneseDictionary, toSearch: string[]) =>
   dictionary.words.filter(word =>
-    word.kanji.some(({ text }) => text.split('').every(letter => toSearch.includes(letter)))
+    // the very first definition seems to have the most kanji, so this should work. Otherwise, I don't get satisfying results
+    word.kanji[0]?.text
+      .split('')
+      //
+      .every(letter => toSearch.includes(letter))
   )
 
 const foundWordsToDto = (result: JapaneseDictionaryWord[]) =>
   result.map(x => ({
-    jap: x.kanji.map(x => x.text).join(', '),
+    jap: x.kanji[0].text,
     eng: x.sense[0].gloss.map(x => x.text).join(', '),
+    kana: x.kana[0].text,
   }))
 
 // TODO this is gonna be extremely slow, but should do for now
 export const findWord = (kanjiSearch: string[]) => {
   const toSearch = [...kanjiSearch, ...allKana]
   const dictionary = loadDict()
-
   const foundWords = findWordInDictionary(dictionary, toSearch)
-
-  const result = foundWordsToDto(foundWords)
-
-  console.log(result)
+  return foundWordsToDto(foundWords)
 }

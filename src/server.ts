@@ -73,7 +73,8 @@ app.get('/v2/vocab', async (req, res) => {
 
 const main = async () => {
   await extractDict()
-  findWord(['麦', '子', '帽'])
+  const results = findWord('今先生東西神死'.split(''))
+  console.log(results)
 
   app.listen(4000, () => {
     console.log(`Running on http://localhost:4000`)
