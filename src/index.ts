@@ -3,6 +3,8 @@ import { reqToKana } from './utils/kanaTypeToKana'
 import { reqToKanji } from './utils/kanjiLevelToKanji'
 import { getHomeScreenStats } from './utils/getHomeScreenStats'
 import cors from 'cors'
+import { allDecks } from './data/allDecks'
+import { getHomeTiles } from './utils/getHomeTiles'
 
 const app = express()
 
@@ -52,4 +54,33 @@ app.get('/home-screen-stats', (req, res) => {
   res.send(getHomeScreenStats())
 })
 
-app.listen(4000)
+app.get('/v2/decks/:id', (req, res) => {
+  const { id } = req.params
+  if (!id) return res.status(400).send('Id not provided')
+
+  const deck = allDecks[id]
+  if (!deck) return res.status(404).send('Deck not found')
+
+  res.json(deck)
+})
+
+app.get('/v2/decks/:id/length', (req, res) => {
+  const { id } = req.params
+  if (!id) return res.status(400).send('Id not provided')
+
+  const deck = allDecks[id]
+  if (!deck) return res.status(404).send('Deck not found')
+
+  res.json({ length: deck.length })
+})
+
+app.get('/v2/home/tiles', (_req, res) =>
+  res.json({
+    tiles: getHomeTiles(),
+  })
+)
+
+app.listen(4000, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Running on http://localhost:4000`)
+})
