@@ -28,11 +28,21 @@ const foundWordsToDto = (result: JapaneseDictionaryWord[]) =>
     kana: x.kana[0].text,
   }))
 
+type FindWordArgs = {
+  search: string[]
+  minLength: number
+  maxLength: number
+}
+
 // TODO this is gonna be extremely slow, but should do for now
-// TODO should remove single kanji words?
-export const findWord = (kanjiSearch: string[]) => {
-  const toSearch = [...kanjiSearch, ...allKana]
+// edit - it's actually a lot faster than I thought :p
+export const findWord = ({ minLength, maxLength, search }: FindWordArgs) => {
+  const toSearch = [...search, ...allKana]
   const dictionary = loadDict()
   const foundWords = findWordInDictionary(dictionary, toSearch)
-  return foundWordsToDto(foundWords)
+  return (
+    foundWordsToDto(foundWords)
+      // yeah, I could optimize, but I don't really care :p
+      .filter(x => x.jap.length >= minLength && x.jap.length <= maxLength)
+  )
 }

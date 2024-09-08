@@ -68,10 +68,22 @@ app.get('/v2/home/tiles', (_req, res) => {
 
 app.get('/v2/vocab/:kanjiList', async (req, res) => {
   const kanjiList = req.params.kanjiList
+  const minLength = req.query.minLength as string | undefined
+  const maxLength = req.query.maxLength as string | undefined
+
+  const finalMinLength = minLength ? parseInt(minLength) : -Infinity
+  const finalMaxLength = maxLength ? parseInt(maxLength) : Infinity
+
+  console.log(minLength, maxLength)
+
   const finalKanjiList: string[] = kanjiList.startsWith('level') ? kanjiUntilLevel(kanjiList) : kanjiList.split('')
 
   const timeBefore = performance.now()
-  const foundWords = findWord(finalKanjiList)
+  const foundWords = findWord({
+    search: finalKanjiList,
+    minLength: finalMinLength,
+    maxLength: finalMaxLength,
+  })
   const timeAfter = performance.now()
   const took = timeAfter - timeBefore
 
