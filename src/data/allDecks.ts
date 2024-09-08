@@ -1,35 +1,26 @@
-import { hiraganaWithDakuten, hiraganaWithoutDakuten } from './hiragana'
+import { hiraganaOnlyDakuten, hiraganaBase } from './hiragana'
 import { kanjiN1 } from './kanjiN1'
 import { kanjiN2 } from './kanjiN2'
 import { kanjiN3 } from './kanjiN3'
 import { kanjiN4 } from './kanjiN4'
 import { kanjiN5 } from './kanjiN5'
-import { katakanaWithDakuten, katakanaWithoutDakuten } from './katakana'
+import { katakanaBase, katakanaOnlyDakuten } from './katakana'
 import { DeckDb } from '../types'
 
-type DeckKey =
-  | 'n5'
-  | 'n4'
-  | 'n3'
-  | 'n2'
-  | 'n1'
-  | 'hiragana-with-dakuten'
-  | 'hiragana-without-dakuten'
-  | 'katakana-with-dakuten'
-  | 'katakana-without-dakuten'
-
 const allDeck = {
-  n5: kanjiN5,
-  n4: kanjiN4,
-  n3: kanjiN3,
-  n2: kanjiN2,
-  n1: kanjiN1,
+  [kanjiN5.id]: kanjiN5,
+  [kanjiN4.id]: kanjiN4,
+  [kanjiN3.id]: kanjiN3,
+  [kanjiN2.id]: kanjiN2,
+  [kanjiN1.id]: kanjiN1,
 
-  'hiragana-with-dakuten': hiraganaWithDakuten,
-  'hiragana-without-dakuten': hiraganaWithoutDakuten,
-  'katakana-with-dakuten': katakanaWithDakuten,
-  'katakana-without-dakuten': katakanaWithoutDakuten,
+  [hiraganaBase.id]: hiraganaBase,
+  [hiraganaOnlyDakuten.id]: hiraganaOnlyDakuten,
+  [katakanaBase.id]: katakanaBase,
+  [katakanaOnlyDakuten.id]: katakanaOnlyDakuten,
 }
+
+type DeckKey = keyof typeof allDeck
 
 export const allDecksSafe: Record<DeckKey, DeckDb> = allDeck
 export const allDecksGeneric: Record<string, DeckDb> = allDeck
