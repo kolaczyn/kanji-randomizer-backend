@@ -2,18 +2,22 @@ import { apiBaseUrl } from '../env/apiBaseUrl'
 import { hiraganaImgsDict } from '../data/hiraganaImgsDict'
 import { katakanaImgsDict } from '../data/katakanaImgsDict'
 
-const characterToUnicodeId = (char: string): number | null => char.codePointAt(0) ?? null
+export const characterToUnicodeId = (char: string): number | null => char.codePointAt(0) ?? null
 
-const isHiraganaRange = (unicodeId: number): boolean => {
+export const isHiraganaRange = (unicodeId: number): boolean => {
   const HIRAGANA_START = 0x3040
   const HIRAGANA_END = 0x309f
   return unicodeId >= HIRAGANA_START && unicodeId <= HIRAGANA_END
 }
 
-const isKatakanaRange = (unicodeId: number): boolean => {
+export const isKatakanaRange = (unicodeId: number): boolean => {
   const KATAKANA_START = 0x30a0
   const KATAKANA_END = 0x30ff
   return unicodeId >= KATAKANA_START && unicodeId <= KATAKANA_END
+}
+
+export const isKanaRange = (unicodeId: number): boolean => {
+  return isHiraganaRange(unicodeId) || isKatakanaRange(unicodeId)
 }
 
 export const getImgUrl = (char: string): string | null => {
