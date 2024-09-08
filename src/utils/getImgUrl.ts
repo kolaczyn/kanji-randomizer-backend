@@ -1,4 +1,5 @@
 import { apiBaseUrl } from '../env/apiBaseUrl'
+import { hiraganaImgsDict } from '../data/hiraganaImgs'
 
 const characterToUnicodeId = (char: string): number | null => char.codePointAt(0) ?? null
 
@@ -14,17 +15,12 @@ const isKatakanaRange = (unicodeId: number): boolean => {
   return unicodeId >= KATAKANA_START && unicodeId <= KATAKANA_END
 }
 
-type GetImgUrlArgs = {
-  character: string
-  meaning: string
-}
-
-export const getImgUrl = ({ character: char, meaning }: GetImgUrlArgs): string | null => {
+export const getImgUrl = (char: string): string | null => {
   const unicodeId = characterToUnicodeId(char)
   if (unicodeId === null) return null
 
-  if (isHiraganaRange(unicodeId)) return hiraganaPronunciationToStroke(meaning)
-  if (isKatakanaRange(unicodeId)) return null
+  if (isHiraganaRange(unicodeId)) return hiraganaImgsDict[char]
+  if (isKatakanaRange(unicodeId)) return hiraganaPronunciationToStroke(char)
   return kanjiToStrokeImgName(char)
 }
 

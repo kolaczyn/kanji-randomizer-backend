@@ -5,8 +5,5 @@ export const deckDbToCardsDto = (questionAnswer: QuestionAnswerListDb): CardDto[
   questionAnswer.map(([character, meaning]) => ({
     character,
     meaning,
-    strokeImg: getImgUrl({
-      meaning,
-      character,
-    }),
+    strokeImg: getImgUrl(character),
   }))
