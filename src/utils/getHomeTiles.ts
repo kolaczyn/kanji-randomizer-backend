@@ -1,5 +1,12 @@
 import { DeckDb } from '../types'
-import { allDecksSafe } from '../data/allDecks'
+import { hiraganaBase, hiraganaOnlyDakuten } from '../data/hiragana'
+import { katakanaBase, katakanaOnlyDakuten } from '../data/katakana'
+import { kanjiN5 } from '../data/kanjiN5'
+import { kanjiN4 } from '../data/kanjiN4'
+import { kanjiN3 } from '../data/kanjiN3'
+import { kanjiN2 } from '../data/kanjiN2'
+import { kanjiN1 } from '../data/kanjiN1'
+import { allDeck } from '../data/allDecks'
 
 type HomeTile = {
   id: string
@@ -16,13 +23,13 @@ const getHomeTile = (deck: DeckDb): HomeTile => ({
 })
 
 export const getHomeTiles = (): HomeTile[] => [
-  getHomeTile(allDecksSafe['hiragana-with-dakuten']),
-  getHomeTile(allDecksSafe['hiragana-without-dakuten']),
-  getHomeTile(allDecksSafe['katakana-with-dakuten']),
-  getHomeTile(allDecksSafe['katakana-without-dakuten']),
-  getHomeTile(allDecksSafe['n5']),
-  getHomeTile(allDecksSafe['n4']),
-  getHomeTile(allDecksSafe['n3']),
-  getHomeTile(allDecksSafe['n2']),
-  getHomeTile(allDecksSafe['n1']),
+  getHomeTile(allDeck[hiraganaBase.id]),
+  getHomeTile(allDeck[hiraganaOnlyDakuten.id]),
+  getHomeTile(allDeck[katakanaBase.id]),
+  getHomeTile(allDeck[katakanaOnlyDakuten.id]),
+  getHomeTile(allDeck[kanjiN5.id]),
+  getHomeTile(allDeck[kanjiN4.id]),
+  getHomeTile(allDeck[kanjiN3.id]),
+  getHomeTile(allDeck[kanjiN2.id]),
+  getHomeTile(allDeck[kanjiN1.id]),
 ]

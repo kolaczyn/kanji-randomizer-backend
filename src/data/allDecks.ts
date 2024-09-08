@@ -7,7 +7,7 @@ import { kanjiN5 } from './kanjiN5'
 import { katakanaBase, katakanaOnlyDakuten } from './katakana'
 import { DeckDb } from '../types'
 
-const allDeck = {
+export const allDeck = {
   [kanjiN5.id]: kanjiN5,
   [kanjiN4.id]: kanjiN4,
   [kanjiN3.id]: kanjiN3,
@@ -20,7 +20,4 @@ const allDeck = {
   [katakanaOnlyDakuten.id]: katakanaOnlyDakuten,
 }
 
-type DeckKey = keyof typeof allDeck
-
-export const allDecksSafe: Record<DeckKey, DeckDb> = allDeck
 export const allDecksGeneric: Record<string, DeckDb> = allDeck
