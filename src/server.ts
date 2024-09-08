@@ -1,3 +1,5 @@
+import { config } from 'dotenv-safe'
+config()
 import express from 'express'
 import cors from 'cors'
 import { allDecksGeneric } from './data/allDecks'
@@ -5,6 +7,7 @@ import { getHomeTiles } from './utils/getHomeTiles'
 import { DeckDto, HomeTilesDto } from './types'
 import { deckJoinSchema } from './schema/deckJoinSchema'
 import { normalizeArray } from './utils/normalizeArray'
+import { deckDbToCardsDto } from './utils/deckDbToCardsDto'
 
 const app = express()
 
@@ -14,20 +17,28 @@ app.use(
   })
 )
 
+app.use(express.static('src/assets'))
+
 app.get('/v2/decks/join', (req, res) => {
   // gram from query
-  const { ids } = req.query
-  const normalizedIds = normalizeArray(ids)
+  const normalizedIds = normalizeArray(req.query.ids)
   const validation = deckJoinSchema.safeParse(normalizedIds)
 
   if (!validation.success) {
     return res.status(400).send(validation.error.errors)
   }
 
-  // TODO I just ignore the case where the deck is not found, and use empty array
-  const decks = validation.data.map(id => allDecksGeneric[id].deck ?? []).flat()
+  const ids = validation.data
 
-  const response: DeckDto = decks
+  // TODO I just ignore the case where the deck is not found, and use empty array. This should probably be error 400
+  const decks = ids.map(id => allDecksGeneric[id].deck ?? []).flat()
+  const cardsDto = deckDbToCardsDto(decks)
+
+  const response: DeckDto = {
+    id: ids.join('-'),
+    title: 'Joined deck',
+    deck: cardsDto,
+  }
   res.json(response)
 })
 
@@ -38,7 +49,12 @@ app.get('/v2/decks/:id', (req, res) => {
   const deck = allDecksGeneric[id]
   if (!deck) return res.status(404).send('Deck not found')
 
-  const response: DeckDto = deck.deck
+  const cardsDto = deckDbToCardsDto(deck.deck)
+  const response: DeckDto = {
+    id: deck.id,
+    title: deck.title,
+    deck: cardsDto,
+  }
   res.json(response)
 })
 
