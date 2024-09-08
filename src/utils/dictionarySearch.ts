@@ -29,8 +29,9 @@ const foundWordsToDto = (result: JapaneseDictionaryWord[]) =>
   }))
 
 // TODO this is gonna be extremely slow, but should do for now
-export const findWord = (kanjiSearch: string[]) => {
-  const toSearch = [...kanjiSearch, ...allKana]
+// TODO should remove single kanji words?
+export const findWord = (kanjiSearch: string) => {
+  const toSearch = [...kanjiSearch.split(''), ...allKana]
   const dictionary = loadDict()
   const foundWords = findWordInDictionary(dictionary, toSearch)
   return foundWordsToDto(foundWords)

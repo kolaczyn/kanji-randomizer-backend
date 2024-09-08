@@ -65,16 +65,16 @@ app.get('/v2/home/tiles', (_req, res) => {
   res.json(response)
 })
 
-app.get('/v2/vocab', async (req, res) => {
+app.get('/v2/vocab/:kanjiList', async (req, res) => {
+  const kanjiList = req.params.kanjiList
+  const foundWords = findWord(kanjiList)
   res.json({
-    ok: 'done',
+    results: foundWords,
   })
 })
 
 const main = async () => {
   await extractDict()
-  const results = findWord('今先生東西神死'.split(''))
-  console.log(results)
 
   app.listen(4000, () => {
     console.log(`Running on http://localhost:4000`)
