@@ -1,13 +1,21 @@
-export type KanjiList = [string, string][]
+export type DeckDb = {
+  id: string
+  title: string
+  deck: QuestionAnswerList
+}
 
-export type HomeScreenStatsDto = {
-  n1: number
-  n2: number
-  n3: number
-  n4: number
-  n5: number
-  hiraganaWithDakuten: number
-  hiraganaWithoutDakuten: number
-  katakanaWithDakuten: number
-  katakanaWithoutDakuten: number
+export type QuestionAnswerList = [string, string][]
+
+export type DeckDto = [string, string][]
+
+export type DeckLengthDto = {
+  length: number
+}
+
+export type HomeTilesDto = {
+  tiles: {
+    id: string
+    title: string
+    length: number
+  }[]
 }
