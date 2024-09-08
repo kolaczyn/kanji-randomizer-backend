@@ -9,7 +9,7 @@ const allKana: string[] = [hiraganaBase, hiraganaOnlyDakuten, katakanaBase, kata
 
 const loadDict = () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return require('../jmdict-eng-common-3.5.0.json') as JapaneseDictionary
+  return require('../../jmdict-eng-common-3.5.0.json') as JapaneseDictionary
 }
 
 const findWordInDictionary = (dictionary: JapaneseDictionary, toSearch: string[]) =>
