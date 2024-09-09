@@ -12,6 +12,7 @@ import { extractDict } from './utils/extractDict'
 import { findWord } from './utils/dictionarySearch'
 import { kanjiUntilLevel } from './utils/kanjiUntilLevel'
 import { getImgUrl } from './utils/getImgUrl'
+import { extractVocabQuery } from './utils/extractVocabQuery'
 
 export const app = express()
 
@@ -69,19 +70,16 @@ app.get('/v2/home/tiles', (_req, res) => {
 
 app.get('/v2/vocab/:kanjiList', async (req, res) => {
   const kanjiList = req.params.kanjiList
-  const minLength = req.query.minLength as string | undefined
-  const maxLength = req.query.maxLength as string | undefined
-
-  const finalMinLength = minLength ? parseInt(minLength) : -Infinity
-  const finalMaxLength = maxLength ? parseInt(maxLength) : Infinity
+  const { onlyKanji, minLength, maxLength } = extractVocabQuery(req)
 
   const finalKanjiList: string[] = kanjiList.startsWith('level') ? kanjiUntilLevel(kanjiList) : kanjiList.split('')
 
   const timeBefore = performance.now()
   const foundWords = findWord({
     search: finalKanjiList,
-    minLength: finalMinLength,
-    maxLength: finalMaxLength,
+    minLength,
+    maxLength,
+    onlyKanji,
   })
   const timeAfter = performance.now()
   const took = timeAfter - timeBefore

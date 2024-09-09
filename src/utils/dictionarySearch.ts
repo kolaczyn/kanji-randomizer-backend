@@ -32,12 +32,13 @@ type FindWordArgs = {
   search: string[]
   minLength: number
   maxLength: number
+  onlyKanji: boolean
 }
 
 // TODO this is gonna be extremely slow, but should do for now
 // edit - it's actually a lot faster than I thought :p
-export const findWord = ({ minLength, maxLength, search }: FindWordArgs) => {
-  const toSearch = [...search, ...allKana]
+export const findWord = ({ minLength, maxLength, search, onlyKanji }: FindWordArgs) => {
+  const toSearch = onlyKanji ? search : [...search, ...allKana]
   const dictionary = loadDict()
   const foundWords = findWordInDictionary(dictionary, toSearch)
   return (
