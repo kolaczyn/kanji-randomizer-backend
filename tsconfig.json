@@ -5,8 +5,9 @@
     "outDir": "dist",
     "moduleResolution": "Node",
     "declaration": true,
-    "strict": true
+    "strict": true,
+    "target": "ES2022",
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts"],
 }
