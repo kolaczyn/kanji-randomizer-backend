@@ -12,7 +12,7 @@ import { extractDict } from './utils/extractDict'
 import { findWord } from './utils/dictionarySearch'
 import { kanjiUntilLevel } from './utils/kanjiUntilLevel'
 
-const app = express()
+export const app = express()
 
 app.use(
   cors({
@@ -73,8 +73,6 @@ app.get('/v2/vocab/:kanjiList', async (req, res) => {
 
   const finalMinLength = minLength ? parseInt(minLength) : -Infinity
   const finalMaxLength = maxLength ? parseInt(maxLength) : Infinity
-
-  console.log(minLength, maxLength)
 
   const finalKanjiList: string[] = kanjiList.startsWith('level') ? kanjiUntilLevel(kanjiList) : kanjiList.split('')
 
