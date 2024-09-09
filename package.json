@@ -6,14 +6,12 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "ts-node-dev --ignore-watch jmdict-eng-common-3.5.0.json src/server.ts",
-    "dev:run": "ts-node src/server.ts",
-    "start": "node dist/server.js",
+    "start": "ts-node src/server.ts",
     "format": "prettier -c src",
     "types": "tsc --noEmit",
     "lint:check": "eslint src",
     "test:run": "vitest run",
     "ci": "run-p -l --aggregate-output format lint:check types test:run",
-    "build": "rimraf dist && tsc",
     "prepare": "husky"
   },
   "devDependencies": {
