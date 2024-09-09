@@ -18,7 +18,7 @@ const findWordInDictionary = (dictionary: JapaneseDictionary, toSearch: string[]
     word.kanji[0]?.text
       .split('')
       //
-      .every(letter => toSearch.includes(letter))
+      .every(letter => toSearch.includes(letter)),
   )
 
 const foundWordsToDto = (result: JapaneseDictionaryWord[]) =>
