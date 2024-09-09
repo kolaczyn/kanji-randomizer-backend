@@ -2,7 +2,7 @@ import { expect, test } from 'vitest'
 import { getImgUrl } from './getImgUrl'
 
 test('getImgUrl', () => {
-  expect(getImgUrl('喝')).toMatchInlineSnapshot('"undefined/stroke/559d.png"')
+  expect(getImgUrl('喝')).toMatchInlineSnapshot('"http://localhost:4000/stroke/559d.png"')
 
   expect(getImgUrl('サ')).toMatchInlineSnapshot(
     '"https://upload.wikimedia.org/wikipedia/commons/8/8f/%E3%82%B5-bw.png"',
@@ -18,5 +18,5 @@ test('getImgUrl', () => {
 
   // this is how edge cases are handled, which isn't very good, but it doesn't really matter :p
   expect(getImgUrl('ばか')).toMatchInlineSnapshot('undefined')
-  expect(getImgUrl('hi')).toMatchInlineSnapshot('"undefined/stroke/68.png"')
+  expect(getImgUrl('hi')).toMatchInlineSnapshot('"http://localhost:4000/stroke/68.png"')
 })

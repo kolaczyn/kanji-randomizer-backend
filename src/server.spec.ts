@@ -67,7 +67,7 @@ describe('server', () => {
     })
 
     test('kanji', async () => {
-      await request(app).get('/imgs/stroke/漢').expect(302).expect('Location', 'undefined/stroke/6f22.png')
+      await request(app).get('/imgs/stroke/漢').expect(302).expect('Location', 'http://localhost:4000/stroke/6f22.png')
     })
   })
 })

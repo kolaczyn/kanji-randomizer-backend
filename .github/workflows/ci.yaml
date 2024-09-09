@@ -23,6 +23,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build
+    env:
+      API_BASE_URL: http://localhost:4000
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
