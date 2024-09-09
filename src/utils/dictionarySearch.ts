@@ -8,7 +8,7 @@ const allKana: string[] = [hiraganaBase, hiraganaOnlyDakuten, katakanaBase, kata
   .map(x => x[0])
 
 const loadDict = () => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   return require('../../jmdict-eng-common-3.5.0.json') as JapaneseDictionary
 }
 
