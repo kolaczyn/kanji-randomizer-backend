@@ -50,4 +50,24 @@ describe('server', () => {
         expect(response.body.tiles.length).toBe(9)
       })
   })
+
+  describe('/imgs/stroke/:char', () => {
+    test('hiragana', async () => {
+      await request(app)
+        .get('/imgs/stroke/あ')
+        .expect(302)
+        .expect('Location', 'https://upload.wikimedia.org/wikipedia/commons/2/21/%E3%81%82-bw.png')
+    })
+
+    test('katakana', async () => {
+      await request(app)
+        .get('/imgs/stroke/ア')
+        .expect(302)
+        .expect('Location', 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%E3%82%A2-bw.png')
+    })
+
+    test('kanji', async () => {
+      await request(app).get('/imgs/stroke/漢').expect(302).expect('Location', 'undefined/stroke/6f22.png')
+    })
+  })
 })

@@ -11,6 +11,7 @@ import { deckDbToCardsDto } from './utils/deckDbToCardsDto'
 import { extractDict } from './utils/extractDict'
 import { findWord } from './utils/dictionarySearch'
 import { kanjiUntilLevel } from './utils/kanjiUntilLevel'
+import { getImgUrl } from './utils/getImgUrl'
 
 export const app = express()
 
@@ -90,6 +91,14 @@ app.get('/v2/vocab/:kanjiList', async (req, res) => {
     results: foundWords,
   }
   res.json(response)
+})
+
+app.get('/imgs/stroke/:char', (req, res) => {
+  const { char } = req.params
+  const imgUrl = getImgUrl(char)
+  if (!imgUrl) return res.status(404).send('Image not found')
+  // TODO redirects are not optimal if we are have the files anyway, but whatever :p
+  res.redirect(imgUrl)
 })
 
 const main = async () => {
