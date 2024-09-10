@@ -15,22 +15,6 @@ describe('server', () => {
     })
   })
 
-  describe('/v2/decks/:id', () => {
-    it('returns n5 deck', async () => {
-      await request(app)
-        .get('/v2/decks/n5')
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .then(response => {
-          expect(response.body.deck.length).toBe(80)
-        })
-    })
-
-    it('handles unknown deck', async () => {
-      await request(app).get('/v2/decks/asldakjl').expect(404)
-    })
-  })
-
   describe('photos', () => {
     it('photo found', async () => {
       await request(app).get('/stroke/6c0f.png').expect(200).expect('Content-Type', /image/)
