@@ -30,20 +30,20 @@ const foundWordsToDto = (result: JapaneseDictionaryWord[]) =>
 
 type FindWordArgs = {
   search: string[]
-  minLength: number
-  maxLength: number
+  minLen: number
+  maxLen: number
   onlyKanji: boolean
 }
 
 // TODO this is gonna be extremely slow, but should do for now
 // edit - it's actually a lot faster than I thought :p
-export const findWord = ({ minLength, maxLength, search, onlyKanji }: FindWordArgs) => {
+export const findWord = ({ minLen, maxLen, search, onlyKanji }: FindWordArgs) => {
   const toSearch = onlyKanji ? search : [...search, ...allKana]
   const dictionary = loadDict()
   const foundWords = findWordInDictionary(dictionary, toSearch)
   return (
     foundWordsToDto(foundWords)
       // yeah, I could optimize, but I don't really care :p
-      .filter(x => x.jap.length >= minLength && x.jap.length <= maxLength)
+      .filter(x => x.jap.length >= minLen && x.jap.length <= maxLen)
   )
 }

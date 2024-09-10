@@ -12,7 +12,7 @@ import { extractDict } from './utils/extractDict'
 import { findWord } from './utils/dictionarySearch'
 import { kanjiUntilLevel } from './utils/kanjiUntilLevel'
 import { getImgUrl } from './utils/getImgUrl'
-import { extractVocabQuery } from './utils/extractVocabQuery'
+import { vocabQuerySchema } from './schema/vocabQuerySchema'
 
 export const app = express()
 
@@ -52,17 +52,21 @@ app.get('/v2/home/tiles', (_req, res) => {
   res.json(response)
 })
 
-app.get('/v2/vocab/:kanjiList', async (req, res) => {
-  const kanjiList = req.params.kanjiList
-  const { onlyKanji, minLength, maxLength } = extractVocabQuery(req)
+app.get('/v2/vocab', async (req, res) => {
+  const result = vocabQuerySchema.safeParse(req.query)
+  if (!result.success) {
+    return res.status(400).send(result.error.errors)
+  }
 
-  const finalKanjiList: string[] = kanjiList.startsWith('level') ? kanjiUntilLevel(kanjiList) : kanjiList.split('')
+  const { onlyKanji, maxLen, minLen, query } = result.data
+  const finalKanjiList: string[] = query.startsWith('level') ? kanjiUntilLevel(query) : query.split('')
 
   const timeBefore = performance.now()
+  console.log(result.data.onlyKanji)
   const foundWords = findWord({
     search: finalKanjiList,
-    minLength,
-    maxLength,
+    minLen,
+    maxLen,
     onlyKanji,
   })
   const timeAfter = performance.now()
