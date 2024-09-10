@@ -19,7 +19,7 @@ const getHomeTile = (deck: DeckDb): HomeTile => ({
   id: deck.id,
   title: deck.title,
   length: deck.deck.length,
-  apiUrl: `/v2/decks/${deck.id}`,
+  apiUrl: `/v2/decks/join?ids=${deck.id}`,
 })
 
 export const getHomeTiles = (): HomeTile[] => [

@@ -1,10 +1,12 @@
 import { CardDto, QuestionAnswerListDb } from '../types'
 import { characterToUnicodeId, getImgUrl, isKanaRange } from './getImgUrl'
+import { getKanjiPopularity } from '../data/kanjiPopularity'
 
 export const deckDbToCardsDto = (questionAnswer: QuestionAnswerListDb): CardDto[] =>
-  questionAnswer.map(([character, meaning]) => ({
-    character,
+  questionAnswer.map(([char, meaning]) => ({
+    character: char,
     meaning,
-    strokeImg: getImgUrl(character),
-    isKanji: !isKanaRange(characterToUnicodeId(character) ?? 0),
+    strokeImg: getImgUrl(char),
+    isKanji: !isKanaRange(characterToUnicodeId(char) ?? 0),
+    popularity: getKanjiPopularity(char),
   }))

@@ -11,6 +11,7 @@ export type CardDto = {
   meaning: string
   strokeImg: string | null
   isKanji: boolean
+  popularity: number | null
 }
 
 export type DeckDto = {

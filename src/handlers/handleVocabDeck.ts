@@ -13,6 +13,7 @@ export const handleVocabDeck = (req: Request, res: Response) => {
     character: `${word.jap} (${word.kana})`,
     meaning: word.eng,
     strokeImg: null,
+    popularity: null,
   }))
 
   const response: DeckDto = {
