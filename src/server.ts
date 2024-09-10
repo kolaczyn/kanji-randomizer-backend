@@ -7,6 +7,7 @@ import { handleDecksJoin } from './handlers/handleDecksJoin'
 import { handleHomeTiles } from './handlers/handleHomeTiles'
 import { handleVocab } from './handlers/handleVocab'
 import { handleImgsStroke } from './handlers/handleImgsStroke'
+import { handleVocabDeck } from './handlers/handleVocabDeck'
 
 export const app = express()
 
@@ -21,6 +22,7 @@ app.use(express.static('src/assets'))
 app.get('/v2/decks/join', handleDecksJoin)
 app.get('/v2/home/tiles', handleHomeTiles)
 app.get('/v2/vocab', handleVocab)
+app.get('/v2/vocab-deck', handleVocabDeck)
 app.get('/imgs/stroke/:char', handleImgsStroke)
 
 const main = async () => {
