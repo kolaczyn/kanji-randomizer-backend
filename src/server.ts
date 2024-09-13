@@ -8,6 +8,7 @@ import { handleHomeTiles } from './handlers/handleHomeTiles'
 import { handleVocab } from './handlers/handleVocab'
 import { handleImgsStroke } from './handlers/handleImgsStroke'
 import { handleVocabDeck } from './handlers/handleVocabDeck'
+import { MikroORM } from '@mikro-orm/sqlite'
 
 export const app = express()
 
@@ -26,6 +27,8 @@ app.get('/v2/vocab-deck', handleVocabDeck)
 app.get('/imgs/stroke/:char', handleImgsStroke)
 
 const main = async () => {
+  const _orm = await MikroORM.init()
+
   await extractDict()
 
   app.listen(4000, () => {

@@ -134,3 +134,4 @@ lib
 .pnpm-store
 .idea
 jmdict-eng-common-3.5.0.json
+sqlite.db
