@@ -1,4 +1,4 @@
-import { apiBaseUrl } from '../env/apiBaseUrl'
+import { apiBaseUrl } from '../const/env'
 import { hiraganaImgsDict } from '../data/hiraganaImgsDict'
 import { katakanaImgsDict } from '../data/katakanaImgsDict'
 
